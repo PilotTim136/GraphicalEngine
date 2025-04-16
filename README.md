@@ -10,7 +10,7 @@ Install SFML.Net, clone this project (or download DLL from releases), and import
 | Type          | Version       |
 | ------------- | ------------- |
 | Source Code   | BETA 2.0      |
-| DLL           | BETA 2.0      |
+| DLL (un usable state)         | BETA 2.0      |
 
 PLEASE USE THE DOCUMENTATION: [Docs](https://pilottim136.gitbook.io/graphicalengine/)
 
