@@ -15,16 +15,6 @@ namespace GraphicalEngine
 
         public static Vector2 Zero => new Vector2(0, 0);
 
-        public Vector2f ToSFML()
-        {
-            return new Vector2f(x, y);
-        }
-
-        public static Vector2 FromSFML(Vector2f vector)
-        {
-            return new Vector2(vector.X, vector.Y);
-        }
-
         public static Vector2 operator +(Vector2 a, Vector2 b)
         {
             return new Vector2(a.x + b.x, a.y + b.y);

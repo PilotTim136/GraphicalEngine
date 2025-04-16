@@ -19,7 +19,21 @@
             _LOCKED = true;
         }
 
-        public static Vector2 GetScreenCenter(GameObject obj)
+        public static Vector2 GetTopLeft(GameObject obj)
+        {
+            if (obj.sprite == null) return Vector2.Zero;
+
+            var texRect = obj.sprite.TextureRect;
+            var scale = obj.sprite.Scale;
+
+            float width = texRect.Width * scale.X;
+            float height = texRect.Height * scale.Y;
+
+            return new Vector2(width / 2f, height / 2f);
+        }
+
+        //this is with the old system
+        /*public static Vector2 GetScreenCenter(GameObject obj)
         {
             if (obj.sprite == null) return Vector2.Zero;
 
@@ -30,6 +44,6 @@
                 ScreenCenter.x - halfWidth,
                 ScreenCenter.y - halfHeight
             );
-        }
+        }*/
     }
 }

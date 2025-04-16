@@ -8,6 +8,16 @@ namespace GraphicalEngine.Engine
         public struct Settings
         {
             public Vector2 screenSize;
+            public float gravitySpeed = 20;
+            public float defaultDeltaSpeed = 1;
+
+            public Settings(){}
+            public Settings(Vector2 sS, float gS, float dDS)
+            {
+                screenSize = sS;
+                gravitySpeed = gS;
+                defaultDeltaSpeed = dDS;
+            }
         }
 
         static Window window = null!;
@@ -16,6 +26,9 @@ namespace GraphicalEngine.Engine
         public static void Init(Settings settings)
         {
             Vector2 screenSize = settings.screenSize;
+
+            Application.gravityForce = settings.gravitySpeed;
+            Time.timeScale = settings.defaultDeltaSpeed;
 
             //do not change below
             InitConsoleTitle();
@@ -36,7 +49,7 @@ namespace GraphicalEngine.Engine
             //gets the GraphicalBehaviour of every class
             //this is because it has to be able to execute everything in those classes
             //such as "Start()" and "Update()"
-            var types = Assembly.GetExecutingAssembly()
+            var types = Assembly.GetEntryAssembly()!
                 .GetTypes()
                 .Where(t => t.IsSubclassOf(typeof(GraphicalBehaviour)) && !t.IsAbstract)
                 .ToList();

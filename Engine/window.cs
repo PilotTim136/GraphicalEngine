@@ -36,6 +36,9 @@ namespace GraphicalEngine.window
                 RWindow.DispatchEvents();
                 Input.HandleInputs();
                 Update();
+                //Debug.Log($"FPS: {Application.FPS}/{Application.targetFPS} | deltaTime: {Time.deltaTime}");
+                Gravity.Step();
+                LateUpdate();
                 Render();
                 RWindow.Display();
 
@@ -64,12 +67,18 @@ namespace GraphicalEngine.window
                 GB.Start();
             }
         }
-
         void Update()
         {
             foreach (GraphicalBehaviour GB in GameData.behaviours)
             {
                 GB.Update();
+            }
+        }
+        void LateUpdate()
+        {
+            foreach (GraphicalBehaviour GB in GameData.behaviours)
+            {
+                GB.LateUpdate();
             }
         }
     }
