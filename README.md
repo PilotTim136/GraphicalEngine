@@ -9,8 +9,8 @@ Install SFML.Net, clone this project (or download DLL from releases), and import
 
 | Type          | Version       |
 | ------------- | ------------- |
-| Source Code   | BETA-1.0      |
-| DLL           | BETA-1.0      |
+| Source Code   | BETA 2.0      |
+| DLL           | BETA 2.0      |
 
 ## DLL USAGE
 If you are the DLL version, please copy this code into "Program.cs":
