@@ -7,8 +7,10 @@ The Engine is basically "ConsoleEngine", but with actual graphics, instead of co
 Install SFML.Net, clone this project (or download DLL from releases), and import to your project
 > Notice: The DLL in the releases tab may be outdated for a certain amount of time.
 
-SOURCE CURRENT: BETA-1.0<br>
-DLL... CURRENT: BETA-1.0
+| Type          | Version       |
+| ------------- | ------------- |
+| Source Code   | BETA-1.0      |
+| DLL           | BETA-1.0      |
 
 ## DLL USAGE
 If you are the DLL version, please copy this code into "Program.cs":
