@@ -7,6 +7,24 @@ The Engine is basically "ConsoleEngine", but with actual graphics, instead of co
 Install SFML.Net, clone this project (or download DLL from releases), and import to your project
 > Notice: The DLL in the releases tab may be outdated for a certain amount of time.
 
+## DLL USAGE
+If you are the DLL version, please copy this code:
+```cs
+using GraphicalEngine;
+using GraphicalEngine.Engine;
+
+class Program
+{
+    static void Main()
+    {
+        GEngine.Settings s = new GEngine.Settings();
+        s.screenSize = new Vector2(600, 400); //this is changeable
+
+        GEngine.Init(s);
+    }
+}
+```
+
 ## Usage
 
 You can create a sample game with the assets the engine already provides in the source code:
@@ -80,7 +98,7 @@ g.Destroy();
 
 ## Soon
 
-I'm planning on adding audio and text 
+I'm planning on adding audio and text
 
 ## License
 This project is using the [GNU GPLv3](https://choosealicense.com/licenses/gpl-3.0/) license.
