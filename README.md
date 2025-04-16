@@ -2,7 +2,7 @@
 
 The Engine is basically "ConsoleEngine", but with actual graphics, instead of console-colors.
 
-## Instalation
+## Installation
 
 Install SFML.Net, clone this project (or download DLL from releases), and import to your project
 > Notice: The DLL in the releases tab may be outdated for a certain amount of time.
