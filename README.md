@@ -80,7 +80,7 @@ g.Destroy();
 
 ## Soon
 
-I'm planning on adding audio, fonts and 
+I'm planning on adding audio and text 
 
 ## License
 This project is using the [GNU GPLv3](https://choosealicense.com/licenses/gpl-3.0/) license.
