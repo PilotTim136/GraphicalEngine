@@ -1,4 +1,5 @@
 ﻿using GraphicalEngine;
+using GraphicalEngine.UI;
 
 class Example : GraphicalBehaviour
 {
@@ -8,6 +9,8 @@ class Example : GraphicalBehaviour
     int done = 0;
     int score = 0;      //player score
     bool _forceStop = false;
+    TextObject text = null!;
+    GSound sound = new GSound();
 
     public override void Start()
     {
@@ -15,13 +18,13 @@ class Example : GraphicalBehaviour
         obj = new GameObject();
 
         //loop for a certain amount of times
-        int loop = 50;
+        int loop = 10;
         for (int i = 0; i < loop; i++)
         {
             GameObject e = new GameObject();
 
             //set the sprite, scale and position
-            e.SetSprite("white.png")
+            e.SetSprite(GEngine.LoadTexture(ITexture.white))
                 .SetScale(new Vector2(0.1f, 0.2f))
                 .SetPosition(SetRandomPositionV(e));
 
@@ -35,17 +38,42 @@ class Example : GraphicalBehaviour
         }
 
         GameObject floor = new GameObject();
-        floor.SetSprite("white.png")
+        floor.SetSprite(GEngine.LoadTexture(ITexture.white))
             .SetScale(new Vector2(0.5f, 0.1f))
             .SetPosition(new Vector2(ScreenData.ScreenCenter.x, ScreenData.ScreenSize.y - 5));
 
         floor.interactWithGravity = true; //so the floor will be affected by gravity
 
+        //create text objects
+        text = new TextObject()
+            .SetFont(GEngine.LoadFont(IFont.roboto))            //set the font (font from DLL - string for path)
+            .SetText("Score: 0")                                //set text
+            .SetPosition(new Vector2(10, 10)) //set position
+            .SetColor(GColor.White);                            //set color
+
+        sound.LoadSound(GEngine.LoadAudio(IAudio.ding));//load the sound from the DLL - string for path
+
 
         //set the properties of obj (sprite, scale, position)
-        obj.SetSprite("white.png")
-            .SetScale(0.2f)
-            .SetPosition(ScreenData.ScreenCenter);
+        obj.SetSprite(GEngine.LoadTexture(ITexture.white))  //load texture from DLL - string for path
+            .SetScale(0.2f)                                 //object scale
+            .SetPosition(ScreenData.ScreenCenter);          //position of the object
+
+
+        Vector2 bottom = new Vector2(ScreenData.ScreenCenter.x, ScreenData.ScreenSize.y - 60);
+        Button b = new Button();                //create a button
+        b.text = "button!";                     //give the button a text
+        b.position = bottom;                    //set the button position
+        b.font = GEngine.defaultFont;           //set the font for the text
+        b.size = new Vector2(100, 50);          //set the size for the button
+        b.textColor = GColor.BlackAlpha50;      //text color
+        b.buttonColor = GColor.WhiteAlpha50;    //button color
+        b.OnClick(() =>
+        {
+            Debug.Log("clicked!");
+            b.Destroy();                        //destroys the button AFTER the frame to prevent crashes
+        });                                     //what the button will do when it's clicked
+        b.OnHold(() => {});                     //what the button will do when it's held
     }
 
     public override void Update()
@@ -54,7 +82,6 @@ class Example : GraphicalBehaviour
         if (_forceStop) return;
 
         CheckKeys();        //check input-keys
-        //Fall();           //make the falling-objects fall
         CheckYPosition();
         CheckCollision();   //check the collisions
 
@@ -63,7 +90,8 @@ class Example : GraphicalBehaviour
         {
             score++;
             done = 0;
-            Debug.Log("Score: " + score);
+            text.SetText("Score: " + score);
+            sound.Play();
         }
     }
 
@@ -78,7 +106,6 @@ class Example : GraphicalBehaviour
                 done++;                     //increments done by 1.
             }
         }
-        
     }
 
     void CheckCollision()
@@ -95,16 +122,6 @@ class Example : GraphicalBehaviour
             Debug.Log("Force-stop!");
             Time.timeScale = 0;
             _forceStop = true;
-        }
-    }
-
-    //this was before simple-gravity was created.
-    void Fall()
-    {
-        //loop trough EVERY fall object in fallings
-        foreach (GameObject falling in fallings)
-        {
-            falling.MoveBy(new Vector2(0, 2f));     //move the falling by 2f (downwards)
         }
     }
 
@@ -141,9 +158,8 @@ class Example : GraphicalBehaviour
         {
             obj.MoveBy(new Vector2(speed, 0));
         }
-        if (Input.IsKeyDown(KeyCode.E))
-        {
-            obj.ChangeRotation(1);
-        }
+
+        //you can also get the mouse position with:
+        //Input.GetMousePosition()
     }
 }

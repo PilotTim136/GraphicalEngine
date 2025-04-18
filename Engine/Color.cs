@@ -46,10 +46,16 @@ namespace GraphicalEngine
             return $"{{R:{R}, G:{G}, B:{B}, A:{A}}}";
         }
 
+        [Obsolete]
         public Color ToSFMLColor()
+        {
+            return ToSFML();
+        }
+        public Color ToSFML()
         {
             return new Color(R, G, B, A);
         }
+
         public static GColor FromSFMLColor(SFML.Graphics.Color sfmlColor)
         {
             return new GColor(sfmlColor.R, sfmlColor.G, sfmlColor.B, sfmlColor.A);

@@ -1,6 +1,7 @@
 ﻿using SFML.Graphics;
 using SFML.Window;
 using GraphicalEngine.Engine;
+using GraphicalEngine.UI;
 
 namespace GraphicalEngine.window
 {
@@ -15,7 +16,8 @@ namespace GraphicalEngine.window
             RWindow.Closed += (_, __) => RWindow.Close();
 
             //clear the console if something is already in it
-            Console.Clear();
+            if(!GEngineCore._DEBUG)
+                Console.Clear();
 
             //initialize the inputs
             Input.Initialize(RWindow);
@@ -31,18 +33,30 @@ namespace GraphicalEngine.window
 
             //execute Start() on EVERY script that has the subclass 'GraphicalBehaviour'
             Start();
-            while (RWindow.IsOpen)
+            try
             {
-                RWindow.DispatchEvents();
-                Input.HandleInputs();
-                Update();
-                //Debug.Log($"FPS: {Application.FPS}/{Application.targetFPS} | deltaTime: {Time.deltaTime}");
-                Gravity.Step();
-                LateUpdate();
-                Render();
-                RWindow.Display();
+                while (RWindow.IsOpen)
+                {
+                    RWindow.DispatchEvents();
+                    Input.HandleInputs();
+                    Update();
+                    Gravity.Step();
+                    LateUpdate();
+                    Render();
+                    RWindow.Display();
+                    DestroyObjects();
 
-                Time.MeasureFPS();
+                    Time.MeasureFPS();
+                }
+            }
+            catch (Exception ex)
+            {
+                GameData.crash = ex.ToString();
+                Debug.LogError("---------------------------");
+                Debug.LogError($"CRASH!\n{ex}");
+                Debug.LogError("---------------------------");
+                RWindow.Close();
+                new CrashW();
             }
         }
 
@@ -50,13 +64,36 @@ namespace GraphicalEngine.window
         {
             //clear the screen
             RWindow.Clear(Color.Black);
-            //go trough every object, to draw it (if sprite exists)
+
+            Vector2 mpos = Input.GetMousePosition();
+
             foreach (GameObject obj in GameData.objects)
             {
                 if (obj.sprite != null)
                 {
                     RWindow.Draw(obj.sprite);
                 }
+            }
+            foreach(TextObject to in GameData.textObjects)
+            {
+                to.Draw(RWindow);
+            }
+            foreach(Button btn in GameData.buttons)
+            {
+                btn.Draw(RWindow);
+                btn.updateButton(mpos);
+            }
+        }
+
+        void DestroyObjects()
+        {
+            if (GameData.toDestroyBTNs.Count > 0)
+            {
+                foreach (Button btn in GameData.toDestroyBTNs)
+                {
+                    GameData.buttons.Remove(btn);
+                }
+                GameData.toDestroyBTNs.Clear();
             }
         }
 

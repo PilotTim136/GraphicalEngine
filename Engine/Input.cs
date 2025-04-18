@@ -1,5 +1,6 @@
 ﻿using SFML.Window;
 using SFML.Graphics;
+using SFML.System;
 
 namespace GraphicalEngine
 {
@@ -27,6 +28,7 @@ namespace GraphicalEngine
         private static RenderWindow? window;
         private static Dictionary<KeyCode, bool> keyStates = new();
         private static Dictionary<MouseButton, bool> mouseStates = new();
+        private static Vector2i mousePosition;
 
         internal static void Initialize(RenderWindow renderWindow)
         {
@@ -49,6 +51,7 @@ namespace GraphicalEngine
 
             try
             {
+                mousePosition = Mouse.GetPosition(window);
                 foreach (KeyCode keyCode in Enum.GetValues(typeof(KeyCode)))
                 {
                     Keyboard.Key? sfmlKey = TryToSFMLKey(keyCode);
@@ -66,8 +69,13 @@ namespace GraphicalEngine
             }
             catch (Exception ex)
             {
-                Console.WriteLine("[ENGINE: InputError]: " + ex);
+                Debug.LogError("[Input]: " + ex);
             }
+        }
+
+        public static Vector2 GetMousePosition()
+        {
+            return V2Convert.FromSFML(mousePosition).OnlyPositive();
         }
 
         public static bool IsKeyDown(KeyCode keyCode)
@@ -95,7 +103,7 @@ namespace GraphicalEngine
                 }
                 catch (ArgumentOutOfRangeException)
                 {
-                    Console.WriteLine("[ENGINE: InputError]: GetAnyKeyDown() issued an ArgumentOutOfRangeException.");
+                    Debug.LogError("[INPUT] GetAnyKeyDown() issued an ArgumentOutOfRangeException.");
                 }
             }
 
@@ -125,7 +133,7 @@ namespace GraphicalEngine
             }
             catch (ArgumentOutOfRangeException)
             {
-                Console.WriteLine($"[ENGINE: InputWarning]: Unmapped KeyCode: {keyCode}");
+                Debug.LogError($"[INPUT] Unmapped KeyCode: {keyCode}");
                 return null;
             }
         }

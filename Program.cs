@@ -5,11 +5,11 @@ class Program
 {
     static void Main()
     {
-        GEngine.Settings s = new GEngine.Settings();
+        GEngineCore.Settings s = new GEngineCore.Settings();
         s.screenSize = new Vector2(600, 400);
         s.gravitySpeed = 20;
         s.defaultDeltaSpeed = 1;
 
-        GEngine.Init(s);
+        GEngineCore.Init(s);
     }
 }

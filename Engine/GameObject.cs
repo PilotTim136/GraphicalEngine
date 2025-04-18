@@ -7,20 +7,34 @@ namespace GraphicalEngine
     public class GameObject
     {
         int indexInData = 0;
-        public string name { get; private set; } = "";
+        public string name { get; internal set; } = "";
 
-        public Vector2 position { get; private set; }
-        public Vector2 scale { get; private set; } = new Vector2(1, 1);
-        public float rotation { get; private set; } = 0;
+        public Vector2 position { get; internal set; }
+        public Vector2 scale { get; internal set; } = new Vector2(1, 1);
+        public float rotation { get; internal set; } = 0;
 
-        public Sprite? sprite { get; private set; }
+        public Sprite? sprite { get; internal set; }
         Texture? texture = null;
-        public GColor color { get; private set; } = GColor.White;
+        public GColor color { get; internal set; } = GColor.White;
 
+        /// <summary>
+        /// if the gameObject should interact with gravity
+        /// </summary>
         public bool interactWithGravity { get; set; } = false;
+
+        /// <summary>
+        /// (works if affectedByGravity is true): interacts with other gravity-objects
+        /// </summary>
         public bool interactWithOtherGravity { get; set; } = true;
+
+        /// <summary>
+        /// whether or not it should be affected by gravity
+        /// </summary>
         public bool affectedByGravity { get; set; } = false;
 
+        /// <summary>
+        /// the Y-Velocity the gameObject falls (affectedByGravity has to be enabled)
+        /// </summary>
         public float velocityY { get; set; }
 
         #region constructors
@@ -253,10 +267,10 @@ namespace GraphicalEngine
             if(sprite != null && texture != null)
             {
                 sprite.Origin = new Vector2f(texture.Size.X / 2f, texture.Size.Y / 2f);
-                sprite.Position = V2Convert.ToSFML(position);
-                sprite.Scale = V2Convert.ToSFML(scale);
+                sprite.Position = position.ToSFML();
+                sprite.Scale = scale.ToSFML();
                 sprite.Rotation = rotation;
-                sprite.Color = color.ToSFMLColor();
+                sprite.Color = color.ToSFML();
             }
         }
 
